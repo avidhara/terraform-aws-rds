@@ -80,11 +80,11 @@ resource "aws_db_instance" "this" {
   dynamic "restore_to_point_in_time" {
     for_each = var.restore_to_point_in_time
     content {
-      restore_time                             = try(restore_to_point_in_time.value, "restore_time", null)
-      source_db_instance_identifier            = try(restore_to_point_in_time.value, "source_db_instance_identifier", null)
-      source_db_instance_automated_backups_arn = try(restore_to_point_in_time.value, "source_db_instance_automated_backups_arn", null)
-      source_dbi_resource_id                   = try(restore_to_point_in_time.value, "source_dbi_resource_id", null)
-      use_latest_restorable_time               = try(restore_to_point_in_time.value, "use_latest_restorable_time", null)
+      restore_time                             = lookup(restore_to_point_in_time.value, "restore_time", null)
+      source_db_instance_identifier            = lookup(restore_to_point_in_time.value, "source_db_instance_identifier", null)
+      source_db_instance_automated_backups_arn = lookup(restore_to_point_in_time.value, "source_db_instance_automated_backups_arn", null)
+      source_dbi_resource_id                   = lookup(restore_to_point_in_time.value, "source_dbi_resource_id", null)
+      use_latest_restorable_time               = lookup(restore_to_point_in_time.value, "use_latest_restorable_time", null)
     }
 
   }
@@ -93,7 +93,7 @@ resource "aws_db_instance" "this" {
     for_each = var.s3_import
     content {
       bucket_name           = s3_import.value.bucket_name
-      bucket_prefix         = try(s3_import.value, "bucket_prefix", null)
+      bucket_prefix         = lookup(s3_import.value, "bucket_prefix", null)
       ingestion_role        = s3_import.value.ingestion_role
       source_engine         = s3_import.value.source_engine
       source_engine_version = s3_import.value.source_engine_version

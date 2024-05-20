@@ -231,7 +231,7 @@ variable "instance_class" {
 variable "iops" {
   type        = number
   description = "(Optional) The amount of provisioned IOPS. Setting this implies a storage_type of `io`."
-  default     = 0
+  default     = null
 }
 
 variable "kms_key_id" {
@@ -242,8 +242,8 @@ variable "kms_key_id" {
 
 variable "license_model" {
   type        = string
-  description = " (Optional, but required for some DB engines, i.e. Oracle SE1) License model information for this DB instance."
-  default     = ""
+  description = "(Optional, but required for some DB engines, i.e. Oracle SE1) License model information for this DB instance."
+  default     = null
 }
 
 variable "maintenance_window" {
@@ -255,7 +255,7 @@ variable "maintenance_window" {
 variable "manage_master_user_password" {
   type        = bool
   description = "(Optional) Set to true to allow RDS to manage the master user password in Secrets Manager. Cannot be set if password is provided."
-  default     = false
+  default     = null
 }
 variable "master_user_secret_kms_key_id" {
   type        = string
@@ -314,6 +314,7 @@ variable "parameter_group_name" {
 variable "password" {
   type        = string
   description = "(Required unless a snapshot_identifier or replicate_source_db is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
+  sensitive   = true
 }
 
 variable "performance_insights_enabled" {
@@ -354,7 +355,7 @@ variable "replica_mode" {
 variable "replicate_source_db" {
   type        = string
   description = "(Optional) Specifies that this resource is a Replicate database, and to use this value as the source database. This correlates to the identifier of another Amazon RDS Database to replicate (if replicating within a single region) or ARN of the Amazon RDS Database to replicate (if replicating cross-region). Note that if you are creating a cross-region replica of an encrypted database you will also need to specify a kms_key_id."
-  default     = ""
+  default     = null
 }
 
 variable "restore_to_point_in_time" {
@@ -465,11 +466,13 @@ variable "create_option_group_name" {
 variable "engine_name" {
   type        = string
   description = "(Required) Specifies the name of the engine that this option group should be associated with."
+  default     = null
 }
 
 variable "major_engine_version" {
   type        = string
   description = "(Required) Specifies the major version of the engine that this option group should be associated with."
+  default     = null
 }
 
 variable "options" {

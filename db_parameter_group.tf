@@ -1,6 +1,7 @@
 resource "aws_db_parameter_group" "this" {
-  count       = var.create && var.create_parameter_group_name ? 1 : 0
-  name_prefix = var.name_prefix
+  count = var.create && var.create_parameter_group_name ? 1 : 0
+
+  name        = format("%s-db-parameter-group", var.identifier)
   description = format("Database parameter group for %s", var.identifier)
   family      = var.family
 
@@ -9,13 +10,9 @@ resource "aws_db_parameter_group" "this" {
     content {
       name         = parameter.value.name
       value        = parameter.value.value
-      apply_method = lookup(parameter.value, "apply_method", null)
+      apply_method = try(parameter.value, "apply_method", null)
     }
   }
-  tags = merge(
-    {
-      "Name" = format("%s", var.name)
-    },
-    var.tags,
-  )
+
+  tags = var.tags
 }
